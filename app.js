@@ -42,7 +42,7 @@ function createTimeRow(hour){
     timeColumn.text(hour + ":00") // displays text to time column
     
     const textAreaColumn = $("<div>"); // creates div for text area
-    textAreaColumn.attr('class', 'text-area-coulmn col-8 textarea '); // applies attributes to textAreaColumn
+    textAreaColumn.attr('class', 'text-area-coulmn col-8 textarea  '); // applies attributes to textAreaColumn
     const textarea = $("<textarea>"); //creates textarea tag
     textAreaColumn.append(textarea); //appends textarea tag to text area column div
 
@@ -50,7 +50,7 @@ function createTimeRow(hour){
     textarea.val(existingtext); // displays previous text
 
     const buttonColumn = $("<div>"); // creates button column div
-    buttonColumn.attr("button-column col-2"); // sets attribute classes to button column
+    buttonColumn.attr("button-column col-2 btn saveBtn"); // sets attribute classes to button column
     const saveButton = $('<button>'); // creates button tag to button column tag
     saveButton.attr("class", "btn saveBtn ") // sets class attributes to saveButton tag
     saveButton.text('Save'); //adds text 'save' to button 

@@ -1,47 +1,32 @@
 
-// when i visit this page
-
-// see time and date in header
+// moment time function
 function timeDate(){
     setInterval(function(){
-        const now = moment().format("YYYY-MM-DD HH:MM:ss");
+        const now = moment().format("DD-MM-YYYY HH:MM");
         $('#currentDay').text(now)
     }, 1000);
     
 }
 
+// function to create the rows
 function createTimeRow(hour){
-    
-    
-    
-    
-    //  <div class="row">
-    // <!-- time column -->
-    // <div class="time-column col-2">9:00</div>
-    // <!-- textarea column -->
-    // <div class="text-area-column col-8"><textarea name="" id="" cols="30" rows="4"></textarea></div>
-    // <!-- save button column -->
-    // <div class="button-column col-2"><button class="btn btn-save"></button>save</div>
-    // </div> 
-    
+        
+    //variable to create a new div
     const newRow = $("<div>");
 
-    // check what time it is
+    // variable to check what time it is
 
     const presentTime = Number(moment().format("H"));
 
 
-    // if time block is in the future -- give it a future class
+    // variable to create a class to change colours
     const isPresent = hour === presentTime;
     const isPast = hour < presentTime;
     const isFuture = hour > presentTime;
-    // if time block is in the past -- give it a past class
-    // if time block is in the present -- give it a present class
-    
-
-
-    let rowClass = 'row'
-
+   
+   // variable for row 
+    let rowClass = 'row hour'
+//if statments to create class to add to variable rowClass
     if(isPast){
         rowClass = rowClass + ' past';
     }if(isPresent){
@@ -49,48 +34,48 @@ function createTimeRow(hour){
     }if(isFuture){
         rowClass = rowClass + ' future';
     }
-
+//add rowClass to new row with set attribute function
     newRow.attr('class', rowClass);
 
-    const timeColumn = $("<div>");
-    timeColumn.attr('class', 'time-column col-2');
-    timeColumn.text(hour + ":00")
+    const timeColumn = $("<div>");// creates column for time
+    timeColumn.attr('class', 'time-column col-2 hour'); // sets classes for time column
+    timeColumn.text(hour + ":00") // displays text to time column
     
-    const textAreaColumn = $("<div>");
-    textAreaColumn.attr('class', 'text-area-coulmn col-8');
-    const textarea = $("<textarea>");
-    textAreaColumn.append(textarea);
+    const textAreaColumn = $("<div>"); // creates div for text area
+    textAreaColumn.attr('class', 'text-area-coulmn col-8 textarea '); // applies attributes to textAreaColumn
+    const textarea = $("<textarea>"); //creates textarea tag
+    textAreaColumn.append(textarea); //appends textarea tag to text area column div
 
-    const existingtext = localStorage.getItem(hour);
-    textarea.val(existingtext);
+    const existingtext = localStorage.getItem(hour); //gets text using the hour as a key from local storage
+    textarea.val(existingtext); // displays previous text
 
-    const buttonColumn = $("<div>");
-    buttonColumn.attr("button-column col-2");
-    const saveButton = $('<button>');
-    saveButton.attr("class", "btn saveBtn save-btn")
-    saveButton.text('Save');
+    const buttonColumn = $("<div>"); // creates button column div
+    buttonColumn.attr("button-column col-2"); // sets attribute classes to button column
+    const saveButton = $('<button>'); // creates button tag to button column tag
+    saveButton.attr("class", "btn saveBtn ") // sets class attributes to saveButton tag
+    saveButton.text('Save'); //adds text 'save' to button 
 
-    buttonColumn.append(saveButton);
+    buttonColumn.append(saveButton); // appends saveButton tag to buttonColumn div
 
-    newRow.append(timeColumn, textAreaColumn, buttonColumn);
+    newRow.append(timeColumn, textAreaColumn, buttonColumn); // apends time, text area, and button column
 
-    return newRow;
+    return newRow; // returns new row
     
 }
 
 
 
-
+//function that creates the rows with a for loop using hour
 $(function(){
     
     timeDate();
-    
+    //variable to target container
     const timeRowContainer = $(".container");
-    // i should see 9am to 5pm timeblock
-    // time block with existing details from local storage
+    //for loop create 9 to 5 hours
     for (let hour = 9; hour < 18; hour++) {
-        
+    // variable to create time rows   
         const timeRow = createTimeRow(hour);
+        // appends timerow to timeRowContainer
         timeRowContainer.append(timeRow);
         
     }
@@ -98,34 +83,23 @@ $(function(){
     
 });
 
-
+// event listener and function to save text to local storage using hour as the key
 $(document).on('click', '.save-btn', function(event){
     
 
-    // when users clicks on save button on a timeblock
+    // Targets event when button is clicked
     const buttonClicked = $(event.target);
-
+    // variables to traverse the Dom to to get the text area and time
     const textarea = buttonClicked.parent().prev().children();
     const timeColumn = buttonClicked.parent().prev().prev();
-    
     const time = timeColumn.text()
-    console.log(time);
-
+    
+    // slice is used to remove the last 3 characters for the use of key
     const hour = time.slice(0, -3);
-
-    console.log(hour);
-    console.log(textarea);
     
-    // grab user imput
-
+    // grabs the text from the text area
     const textAreaInput = textarea.val();
-
-    console.log(textAreaInput);
-    
-    // save to local storage
-    // key should be hour
-
-
+    // stores the text area using the key 'hour' and the textAreaInput 'value
     localStorage.setItem(hour, textAreaInput);
 })
 
